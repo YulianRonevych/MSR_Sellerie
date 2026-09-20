@@ -18,6 +18,9 @@ screenshots
 # Local Claude Code settings (machine-specific, not shared)
 .claude/settings.local.json
 
+# Unused stray file, not referenced by the site
+/image0.jpg
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
