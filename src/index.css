@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #faf8f5;
+  --color-ink-light: #f0ede7;
+  --color-leather: #96795a;
+  --color-leather-light: #a3805a;
+  --color-thread: #3d4c5e;
+  --color-bone: #1c1f24;
+  --color-bone-dim: #5b6270;
+  --color-steel: #64748b;
+
+  --font-display: "Playfair Display", serif;
+  --font-body: "Work Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-body);
+}
+
+/* Fluid display type for cinematic headlines */
+.text-mega {
+  font-size: clamp(2.5rem, 4vw + 1.3rem, 4.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  padding-bottom: 0.15em;
+}
+
+.text-act {
+  font-size: clamp(2.25rem, 2.4vw + 1.4rem, 4rem);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  padding-bottom: 0.15em;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
+}
+
+@keyframes bounce-soft {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.animate-bounce-soft {
+  position: relative;
+  z-index: 1;
+  animation: bounce-soft 1.8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(var(--float-x, 5px), var(--float-y, -8px));
+  }
+}
+
+.animate-float {
+  position: relative;
+  z-index: 1;
+  animation: float var(--float-duration, 4s) ease-in-out infinite;
+  animation-delay: var(--float-delay, 0s);
+}
+
+/* Scroll-reveal: elements start hidden/offset, JS flips data-revealed */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.4s ease-out,
+    transform 0.4s ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal="line"] {
+  transform: none;
+  clip-path: inset(0 100% 0 0);
+  transition:
+    opacity 0.3s ease,
+    clip-path 0.45s ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal="scale"] {
+  transform: scale(1.02);
+  transition:
+    opacity 0.4s ease-out,
+    transform 0.45s ease-out;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-revealed="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Le clip-path "wipe" ne concerne que le type line — les autres types
+   ne doivent jamais recevoir de clip-path : ça rognerait tout enfant qui
+   déborde de sa boîte (bulles flottantes, flèches translatées au survol). */
+[data-reveal="line"][data-revealed="true"] {
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal="line"],
+  [data-reveal="scale"] {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+
+  .animate-float,
+  .animate-fade-in,
+  .animate-bounce-soft {
+    animation: none;
+  }
+}
